@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from 'react';
+
+type StateType = {
+  count: number
+}
+
+const TestContext = React.createContext({} as StateType); // ここで共有したいcontextを作成する
 
 function App() {
+  const localCount = 33;
+
+  // contextを使用したいコンポーネント(Test1)にcontextを提供する
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>App</div>
+      <TestContext.Provider value={{count: localCount}}>
+        <Test1/>
+      </TestContext.Provider>
     </div>
   );
 }
 
 export default App;
+
+const Test1 = () => {
+  const textContext = useContext(TestContext);  // ここで使用するcontextを指定する
+
+  return (
+    <>
+      <div>Test1</div>
+      <div>{textContext.count}</div>
+    </>
+  );
+}
